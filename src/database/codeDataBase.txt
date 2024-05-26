@@ -4,7 +4,8 @@ create table usuarios(
 id int primary key auto_increment,
 nombre varchar(100),
 apellido varchar(100),
-correo varchar(100)
+correo varchar(100),
+contraseña varchar(100)
 );
 create table detalles_usuarios(
 id int PRIMARY KEY auto_increment,
