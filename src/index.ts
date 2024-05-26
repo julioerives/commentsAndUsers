@@ -1,7 +1,6 @@
 import express from 'express'
 import routsApp from './routes/routesComentarios';
 import routerUsuarios from './routes/routesUsuarios';
-const actions = ["GET", "POST", "PUT", "DELETE", "PATCH"]
 const app = express();
 app.use(express.json());
 app.get("/responses", (req:any, res:any) => {
