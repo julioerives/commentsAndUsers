@@ -1,0 +1,25 @@
+create database comentarios;
+use comentarios;
+create table usuarios(
+id int primary key auto_increment,
+nombre varchar(100),
+apellido varchar(100),
+correo varchar(100)
+);
+create table detalles_usuarios(
+id int PRIMARY KEY auto_increment,
+fecha_creacion date default current_timestamp,
+ultima_sesion date default current_timestamp,
+id_usuario int,
+foreign key (id_usuario) references usuarios(id)
+);
+create table comentarios(
+id int primary key auto_increment,
+comentarios varchar(100),
+fecha_creacion date default current_timestamp,
+id_usuario int,
+FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+)
+DELIMITER  //
+create trigger detalle_usuarios_crear after insert on usuarios for each row begin insert into detalles_usuarios(id_usuario) values (new.id); end //
+DELIMITER ;
