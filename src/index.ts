@@ -3,11 +3,6 @@ import routsApp from './routes/routesComentarios';
 import routerUsuarios from './routes/routesUsuarios';
 const app = express();
 app.use(express.json());
-app.get("/responses", (req:any, res:any) => {
-    res.json({
-        hola:"hola",
-    })
-})
 app.use("/comentarios", routsApp)
 app.use("/usuarios",routerUsuarios)
 app.use((req:any, res:any,next) => {
