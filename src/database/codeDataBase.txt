@@ -24,3 +24,7 @@ FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 DELIMITER  //
 create trigger detalle_usuarios_crear after insert on usuarios for each row begin insert into detalles_usuarios(id_usuario) values (new.id); end //
 DELIMITER ;
+DELIMITER //
+create trigger elimnar_toda_informacion before delete on usuarios for each row begin delete from detalles_usuarios where id_usuario = old.id; end //
+DELIMITER ;
+select * from usuarios;

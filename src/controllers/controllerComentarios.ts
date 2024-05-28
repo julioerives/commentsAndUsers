@@ -1,8 +1,8 @@
 import { getConnection } from "../database/database";
 import { error } from "../responses/error";
+import { errorMessage } from "../constants/errorMessages";
 import { commentsFound } from "../responses/comentarios/commentsFound";
 import { anythingInserted } from "../responses/anythingInserted";
-import { notFound } from "../responses/notFound";
 export const getAllComentarios = async (req: any, res: any) => {
   try {
     const connection = await getConnection();
@@ -13,7 +13,7 @@ export const getAllComentarios = async (req: any, res: any) => {
     console.log(allComentarios[0]);
     res.json(response);
   } catch (e) {
-    res.json(error);
+    res.json(error(errorMessage.ERROR));
   }
 };
 export const postComentarios = async (req: any, res: any) => {
@@ -31,7 +31,7 @@ export const postComentarios = async (req: any, res: any) => {
     res.json(response);
   } catch (e) {
     console.log(e);
-    res.json();
+    res.json(error(errorMessage.ERROR));
   }
 };
 export const getComentario = async (req: any, res: any) => {
@@ -43,11 +43,13 @@ export const getComentario = async (req: any, res: any) => {
       [id]
     );
     if (Array.isArray(getComment[0]) && getComment[0].length < 1) {
-      res.status(404).json(notFound);
+      res.status(404).json(error(errorMessage.NOT_FOUND));
       return;
     }
 
     res.status(404).json(commentsFound(getComment[0]));
-  } catch (err) {}
+  } catch (err) {
+    res.json(error(errorMessage.ERROR))
+  }
 };
 export default getAllComentarios;
