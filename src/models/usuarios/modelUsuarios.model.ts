@@ -6,6 +6,7 @@ export interface RespuestaUsuarios{
 export interface Usuarios{
     id:number,
     nombre:string,
+    token:string,
     apellido:string
     correo:string,
     contraseña:string

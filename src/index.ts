@@ -1,7 +1,10 @@
 import express from 'express'
 import routsApp from './routes/routesComentarios';
 import routerUsuarios from './routes/routesUsuarios';
+import { config } from 'dotenv';
+import { validateToken } from './shared/token/validateToken';
 const app = express();
+app.use(validateToken);
 app.use(express.json());
 app.use("/comentarios", routsApp)
 app.use("/usuarios",routerUsuarios)

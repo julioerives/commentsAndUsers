@@ -11,12 +11,14 @@ export const userFound = (data:Usuarios):RespuestaUsuarios=>({
         ...data
     }
 })
-export const userFoundLogin=(data:Usuarios,dataDetails:Detalles_Usuarios):RespuestaUsuarios=>({
+export const userFoundLogin=(data:Usuarios,dataDetails:Detalles_Usuarios,token:string):RespuestaUsuarios=>({
     message:"Usuario encontrado",
     error:false,
     data:
        {
+        
         ...data,
-        detalles:dataDetails
+        detalles:dataDetails,
+        token:token,
        }
 })

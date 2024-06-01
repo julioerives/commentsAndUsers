@@ -4,12 +4,13 @@ import { errorMessage } from "../constants/errorMessages";
 import { anythingInserted } from "../responses/anythingInserted";
 import { anythingDeleted } from "../responses/anythingDeleted";
 import { usersFound,userFoundLogin,userFound } from "../responses/usuarios/usersFound";
+import { accessToken } from "../shared/token/accessToken";
 export const getAllUsuarios = async(req:any,res:any)=>{
     try{
         const connection = await getConnection()
     const allUsers:any = await connection.query("SELECT * FROM usuarios");
     
-    const response = usersFound(allUsers[0][0])
+    const response = usersFound(allUsers[0])
     res.json(response)
     }catch(err){
         console.error(err);
@@ -74,13 +75,17 @@ export const login= async(req:any, res:any)=>{
             res.json(error(errorMessage.NOT_FOUND));
             return;
           }
-          
-          
+          const date = new Date()
+        const updateSession = await connection.query("UPDATE detalles_usuarios SET ultima_sesion = ? WHERE id_usuario = ?",[date,login[0][0].id])
         const dataDetails:any = await connection.query("SELECT id,fecha_creacion,ultima_sesion FROM detalles_usuarios where id_usuario = ?",[login[0][0].id]);
         console.log(dataDetails);
-        
-        const response = userFoundLogin(login[0][0],dataDetails[0][0])
-        res.json(response);  
+        const token = accessToken(login[0][0].id)
+        res.header("authorization",token).json({
+            message:"Usuario autenticado",
+            token:token
+        })
+        // const response = userFoundLogin(login[0][0],dataDetails[0][0],token)
+        // res.json(response);  
     }catch(e){
         console.log(e)
         res.json(error(errorMessage.ERROR))
